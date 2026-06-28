@@ -128,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void searchCity(String cityName) {
         progressBar.setVisibility(View.VISIBLE);
+        btnSearch.setEnabled(false);
         executor.execute(() -> {
             try {
                 String formattedCity = cityName.replace(" ", "%20");
@@ -149,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     handler.post(() -> {
                         progressBar.setVisibility(View.GONE);
+                        btnSearch.setEnabled(true);
                         Toast.makeText(MainActivity.this, "City not found!", Toast.LENGTH_SHORT).show();
                     });
                 }
@@ -157,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
                 handler.post(() -> {
                     progressBar.setVisibility(View.GONE);
                     Toast.makeText(MainActivity.this, "Error finding city", Toast.LENGTH_SHORT).show();
+                    btnSearch.setEnabled(true);
                 });
             }
         });
@@ -186,12 +189,14 @@ public class MainActivity extends AppCompatActivity {
                     tvTemperature.setText("Temp: " + temperature + "°C");
                     tvCondition.setText("Condition: " + getWeatherDescription(weatherCode));
                     progressBar.setVisibility(View.GONE);
+                    btnSearch.setEnabled(true);
                 });
             } catch (Exception e) {
                 e.printStackTrace();
                 handler.post(() -> {
                     progressBar.setVisibility(View.GONE);
                     Toast.makeText(MainActivity.this, "Error fetching weather", Toast.LENGTH_SHORT).show();
+                    btnSearch.setEnabled(true);
                 });
             }
         });
